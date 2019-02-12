@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongzhi.ow.mapper.NewsMapper">
+  <resultMap id="BaseResultMap" type="com.dongzhi.ow.pojo.News">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="wid" jdbcType="INTEGER" property="wid" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="newsDate" jdbcType="TIMESTAMP" property="newsDate" />
+    <result column="up" jdbcType="INTEGER" property="up" />
+    <result column="newsOrder" jdbcType="INTEGER" property="newsOrder" />
+    <result column="img" jdbcType="INTEGER" property="img" />
+    <result column="video" jdbcType="INTEGER" property="video" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dongzhi.ow.pojo.News">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, title, wid, url, newsDate, up, newsOrder, img, video
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.dongzhi.ow.pojo.NewsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.dongzhi.ow.pojo.NewsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.dongzhi.ow.pojo.News" useGeneratedKeys="true">
+    insert into news (title, wid, url, 
+      newsDate, up, newsOrder, 
+      img, video, content
+      )
+    values (#{title,jdbcType=VARCHAR}, #{wid,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+      #{newsDate,jdbcType=TIMESTAMP}, #{up,jdbcType=INTEGER}, #{newsOrder,jdbcType=INTEGER}, 
+      #{img,jdbcType=INTEGER}, #{video,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.dongzhi.ow.pojo.News" useGeneratedKeys="true">
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="wid != null">
+        wid,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="newsDate != null">
+        newsDate,
+      </if>
+      <if test="up != null">
+        up,
+      </if>
+      <if test="newsOrder != null">
+        newsOrder,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="video != null">
+        video,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="wid != null">
+        #{wid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="newsDate != null">
+        #{newsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="up != null">
+        #{up,jdbcType=INTEGER},
+      </if>
+      <if test="newsOrder != null">
+        #{newsOrder,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=INTEGER},
+      </if>
+      <if test="video != null">
+        #{video,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dongzhi.ow.pojo.News">
+    update news
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="wid != null">
+        wid = #{wid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="newsDate != null">
+        newsDate = #{newsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="up != null">
+        up = #{up,jdbcType=INTEGER},
+      </if>
+      <if test="newsOrder != null">
+        newsOrder = #{newsOrder,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=INTEGER},
+      </if>
+      <if test="video != null">
+        video = #{video,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dongzhi.ow.pojo.News">
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      wid = #{wid,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      newsDate = #{newsDate,jdbcType=TIMESTAMP},
+      up = #{up,jdbcType=INTEGER},
+      newsOrder = #{newsOrder,jdbcType=INTEGER},
+      img = #{img,jdbcType=INTEGER},
+      video = #{video,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dongzhi.ow.pojo.News">
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      wid = #{wid,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      newsDate = #{newsDate,jdbcType=TIMESTAMP},
+      up = #{up,jdbcType=INTEGER},
+      newsOrder = #{newsOrder,jdbcType=INTEGER},
+      img = #{img,jdbcType=INTEGER},
+      video = #{video,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
