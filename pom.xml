@@ -26,7 +26,7 @@
     <aopalliance.version>1.0</aopalliance.version>
     <mybatis-generator.version>1.3.5</mybatis-generator.version>
     <json.version>20160810</json.version>
-    <jackson-databind.version>2.9.5</jackson-databind.version>
+    <jackson-databind.version>2.13.4.1</jackson-databind.version>
   </properties>
  
   <dependencies>
